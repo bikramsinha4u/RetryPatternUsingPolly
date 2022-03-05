@@ -1,23 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using RetryPatternUsingPolly.PollyUsingDependencyInjection;
-using System;
 using System.Net.Http;
-using System.Net.Http.Headers;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace RetryPatternUsingPolly.Controllers
 {
     [Produces("application/json")]
     [Route("api/[controller]")]
-    public class PollyUsingDependencyInjectionController : Controller
+    public class PollyUsingPolicyHolderForDIController : Controller
     {
         readonly HttpClient _httpClient;
-        private readonly PolicyHolder _policyHolder;
+        private readonly IPolicyHolder _policyHolder;
 
-        public PollyUsingDependencyInjectionController(PolicyHolder policyHolder)
+        public PollyUsingPolicyHolderForDIController(IPolicyHolder policyHolder, HttpClient httpClient)
         {
-            _httpClient = GetHttpClient();
+            _httpClient = httpClient;
             _policyHolder = policyHolder;
         }
 
@@ -26,7 +25,9 @@ namespace RetryPatternUsingPolly.Controllers
         {
             string requestEndpoint = $"inventory/{id}";
 
-            HttpResponseMessage response = await _policyHolder.HttpRetryPolicy.ExecuteAsync(() => _httpClient.GetAsync(requestEndpoint));
+            HttpResponseMessage response = await _policyHolder.HttpRetryPolicy.ExecuteAsync(
+                () => _policyHolder.HttpClientTimeoutExceptionPolicy.ExecuteAsync(
+                async token => await _httpClient.GetAsync(requestEndpoint, token), CancellationToken.None));
 
             if (response.IsSuccessStatusCode)
             {
@@ -35,15 +36,6 @@ namespace RetryPatternUsingPolly.Controllers
             }
 
             return StatusCode((int)response.StatusCode, response.Content.ReadAsStringAsync());
-        }
-
-        private HttpClient GetHttpClient()
-        {
-            var httpClient = new HttpClient();
-            httpClient.BaseAddress = new Uri(@"http://localhost:57696/api/");
-            httpClient.DefaultRequestHeaders.Accept.Clear();
-            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            return httpClient;
         }
     }
 }
