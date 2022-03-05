@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RetryPatternUsingPolly", "R
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PollyTestProject", "PollyTestProject\PollyTestProject.csproj", "{B8680399-5F2E-43F4-8F08-000321EC10F8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CircuitBreakerUsingPolly", "CircuitBreakerUsingPolly\CircuitBreakerUsingPolly.csproj", "{CC454793-0E94-4F5E-A30A-DC4C6C6F924F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{B8680399-5F2E-43F4-8F08-000321EC10F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B8680399-5F2E-43F4-8F08-000321EC10F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B8680399-5F2E-43F4-8F08-000321EC10F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC454793-0E94-4F5E-A30A-DC4C6C6F924F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC454793-0E94-4F5E-A30A-DC4C6C6F924F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC454793-0E94-4F5E-A30A-DC4C6C6F924F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC454793-0E94-4F5E-A30A-DC4C6C6F924F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
